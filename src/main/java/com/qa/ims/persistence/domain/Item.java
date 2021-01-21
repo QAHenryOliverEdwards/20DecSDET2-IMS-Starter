@@ -42,31 +42,31 @@ public class Item {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Item item = (Item) o;
-
-        if (!id.equals(item.id)) return false;
-        if (!name.equals(item.name)) return false;
-        return price.equals(item.price);
-    }
-
-    @Override
-    public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + name.hashCode();
-        result = 31 * result + price.hashCode();
-        return result;
-    }
-
-    @Override
     public String toString() {
         return "Item{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Item item = (Item) o;
+
+        if (id != null ? !id.equals(item.id) : item.id != null) return false;
+        if (name != null ? !name.equals(item.name) : item.name != null) return false;
+        return price != null ? price.equals(item.price) : item.price == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (price != null ? price.hashCode() : 0);
+        return result;
     }
 }
