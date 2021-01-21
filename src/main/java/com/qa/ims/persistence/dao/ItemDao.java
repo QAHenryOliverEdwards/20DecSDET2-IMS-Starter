@@ -6,6 +6,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ItemDao implements IDomainDao<Item> {
@@ -43,7 +44,19 @@ public class ItemDao implements IDomainDao<Item> {
 
     @Override
     public List<Item> readAll() {
-        return null;
+        try (Connection connection = DatabaseUtilities.getInstance().getConnection();
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("SELECT * FROM items")) {
+            List<Item> items = new ArrayList<>();
+            while (resultSet.next()) {
+                items.add(modelFromResultSet(resultSet));
+            }
+            return items;
+        } catch (SQLException e) {
+            LOGGER.debug(e);
+            LOGGER.error(e.getMessage());
+        }
+        return new ArrayList<>();
     }
 
     @Override
