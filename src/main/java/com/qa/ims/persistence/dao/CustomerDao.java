@@ -21,8 +21,8 @@ public class CustomerDao implements IDomainDao<Customer> {
     @Override
     public Customer create(Customer customer) {
         try (Connection connection = DatabaseUtilities.getInstance().getConnection();
-                PreparedStatement statement = connection
-                        .prepareStatement("INSERT INTO customers(first_name, surname) VALUES (?, ?)")) {
+             PreparedStatement statement = connection
+                     .prepareStatement("INSERT INTO customers(first_name, surname) VALUES (?, ?)")) {
             statement.setString(1, customer.getFirstName());
             statement.setString(2, customer.getSurname());
             statement.executeUpdate();
@@ -36,7 +36,8 @@ public class CustomerDao implements IDomainDao<Customer> {
 
     public Customer read(Long id) {
         try (Connection connection = DatabaseUtilities.getInstance().getConnection();
-                PreparedStatement statement = connection.prepareStatement("SELECT * FROM customers WHERE id = ?")) {
+             PreparedStatement statement = connection
+                     .prepareStatement("SELECT * FROM customers WHERE id = ?")) {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             resultSet.next();
@@ -51,8 +52,8 @@ public class CustomerDao implements IDomainDao<Customer> {
     @Override
     public List<Customer> readAll() {
         try (Connection connection = DatabaseUtilities.getInstance().getConnection();
-                Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM customers")) {
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM customers")) {
             List<Customer> customers = new ArrayList<>();
             while (resultSet.next()) {
                 customers.add(modelFromResultSet(resultSet));
