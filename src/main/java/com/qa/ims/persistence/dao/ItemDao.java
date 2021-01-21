@@ -13,6 +13,20 @@ public class ItemDao implements IDomainDao<Item> {
 
     public static final Logger LOGGER = LogManager.getLogger();
 
+    public Item read(Long id) {
+        try (Connection connection = DatabaseUtilities.getInstance().getConnection();
+        PreparedStatement statement = connection
+                .prepareStatement("SELECT * FROM items WHERE id = ?")) {
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            return modelFromResultSet(resultSet);
+        } catch (Exception e) {
+            LOGGER.debug(e);
+            LOGGER.error(e.getMessage());
+        }
+        return null;
+    }
     public Item readLatest() {
         try (Connection connection = DatabaseUtilities.getInstance().getConnection();
              Statement statement = connection.createStatement();
@@ -61,6 +75,18 @@ public class ItemDao implements IDomainDao<Item> {
 
     @Override
     public Item update(Item item) {
+        try (Connection connection = DatabaseUtilities.getInstance().getConnection();
+        PreparedStatement statement = connection
+                .prepareStatement("UPDATE items SET name = ?, price = ? WHERE id = ?")) {
+            statement.setString(1, item.getName());
+            statement.setDouble(2, item.getPrice());
+            statement.setLong(3, item.getId());
+            statement.executeUpdate();
+            return read(item.getId());
+        } catch (Exception e) {
+            LOGGER.debug(e);
+            LOGGER.error(e.getMessage());
+        }
         return null;
     }
 

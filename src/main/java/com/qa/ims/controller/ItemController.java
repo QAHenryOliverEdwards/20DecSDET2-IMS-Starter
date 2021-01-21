@@ -32,7 +32,7 @@ public class ItemController implements ICrudController<Item> {
 
     @Override
     public Item create() {
-        LOGGER.info("Please enter a name");
+        LOGGER.info("Please enter item name");
         String name = javaUtilities.getString();
         LOGGER.info("Please enter a price");
         Double price = javaUtilities.getDouble();
@@ -43,7 +43,15 @@ public class ItemController implements ICrudController<Item> {
 
     @Override
     public Item update() {
-        return null;
+        LOGGER.info("Please enter the id of the item you would like to update");
+        Long id = javaUtilities.getLong();
+        LOGGER.info("Please enter item name");
+        String name = javaUtilities.getString();
+        LOGGER.info("Please enter a price");
+        Double price = javaUtilities.getDouble();
+        Item item = itemDao.update(new Item(id, name, price));
+        LOGGER.info("Item updated");
+        return item;
     }
 
     @Override
