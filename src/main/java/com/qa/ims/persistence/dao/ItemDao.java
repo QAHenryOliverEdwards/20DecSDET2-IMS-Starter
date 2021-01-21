@@ -13,33 +13,6 @@ public class ItemDao implements IDomainDao<Item> {
 
     public static final Logger LOGGER = LogManager.getLogger();
 
-    public Item read(Long id) {
-        try (Connection connection = DatabaseUtilities.getInstance().getConnection();
-        PreparedStatement statement = connection
-                .prepareStatement("SELECT * FROM items WHERE id = ?")) {
-            statement.setLong(1, id);
-            ResultSet resultSet = statement.executeQuery();
-            resultSet.next();
-            return modelFromResultSet(resultSet);
-        } catch (Exception e) {
-            LOGGER.debug(e);
-            LOGGER.error(e.getMessage());
-        }
-        return null;
-    }
-    public Item readLatest() {
-        try (Connection connection = DatabaseUtilities.getInstance().getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT * FROM items ORDER BY id DESC LIMIT 1")) {
-            resultSet.next();
-            return modelFromResultSet(resultSet);
-        } catch (Exception e) {
-            LOGGER.debug(e);
-            LOGGER.error(e.getMessage());
-        }
-        return null;
-    }
-
     @Override
     public Item create(Item item) {
         try (Connection connection = DatabaseUtilities.getInstance().getConnection();
@@ -56,11 +29,39 @@ public class ItemDao implements IDomainDao<Item> {
         return null;
     }
 
+    public Item read(Long id) {
+        try (Connection connection = DatabaseUtilities.getInstance().getConnection();
+             PreparedStatement statement = connection
+                     .prepareStatement("SELECT * FROM items WHERE id = ?")) {
+            statement.setLong(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            resultSet.next();
+            return modelFromResultSet(resultSet);
+        } catch (Exception e) {
+            LOGGER.debug(e);
+            LOGGER.error(e.getMessage());
+        }
+        return null;
+    }
+
+    public Item readLatest() {
+        try (Connection connection = DatabaseUtilities.getInstance().getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM items ORDER BY id DESC LIMIT 1")) {
+            resultSet.next();
+            return modelFromResultSet(resultSet);
+        } catch (Exception e) {
+            LOGGER.debug(e);
+            LOGGER.error(e.getMessage());
+        }
+        return null;
+    }
+
     @Override
     public List<Item> readAll() {
         try (Connection connection = DatabaseUtilities.getInstance().getConnection();
-        Statement statement = connection.createStatement();
-        ResultSet resultSet = statement.executeQuery("SELECT * FROM items")) {
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM items")) {
             List<Item> items = new ArrayList<>();
             while (resultSet.next()) {
                 items.add(modelFromResultSet(resultSet));
