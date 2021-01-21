@@ -98,8 +98,9 @@ public class CustomerDao implements IDomainDao<Customer> {
     @Override
     public int delete(long id) {
         try (Connection connection = DatabaseUtilities.getInstance().getConnection();
-                Statement statement = connection.createStatement()) {
-            return statement.executeUpdate("delete from customers where id = " + id);
+                PreparedStatement statement = connection.prepareStatement("delete from customers where id = ?")) {
+            statement.setLong(1, id);
+            return statement.executeUpdate();
         } catch (Exception e) {
             LOGGER.debug(e);
             LOGGER.error(e.getMessage());
