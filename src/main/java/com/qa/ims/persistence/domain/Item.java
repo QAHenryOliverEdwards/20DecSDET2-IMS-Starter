@@ -60,4 +60,13 @@ public class Item {
         result = 31 * result + price.hashCode();
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                '}';
+    }
 }
