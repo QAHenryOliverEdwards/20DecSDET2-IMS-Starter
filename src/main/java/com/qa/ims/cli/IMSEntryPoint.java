@@ -1,5 +1,7 @@
 package com.qa.ims.cli;
 
+import com.qa.ims.controller.ItemController;
+import com.qa.ims.persistence.dao.ItemDao;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,12 +16,15 @@ public class IMSEntryPoint {
     public static final Logger LOGGER = LogManager.getLogger();
 
     private final CustomerController customers;
+    private final ItemController items;
     private final JavaUtilities javaUtilities;
 
     public IMSEntryPoint() {
         this.javaUtilities = new JavaUtilities();
         final CustomerDao custDAO = new CustomerDao();
+        final ItemDao itemDao = new ItemDao();
         this.customers = new CustomerController(custDAO, javaUtilities);
+        this.items = new ItemController(itemDao, javaUtilities);
     }
 
     public void init() {
@@ -47,7 +52,7 @@ public class IMSEntryPoint {
                 active = this.customers;
                 break;
             case ITEM:
-                // fill this in!
+                active = this.items;
                 break;
             case ORDER:
                 // fill this in!
