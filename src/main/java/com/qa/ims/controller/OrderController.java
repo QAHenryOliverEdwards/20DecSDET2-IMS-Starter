@@ -46,6 +46,8 @@ public class OrderController implements ICrudController<Order> {
 
     @Override
     public int delete() {
-        return 0;
+        LOGGER.info("Please enter the id of the item you would like to delete");
+        Long id = javaUtilities.getLong();
+        return orderDao.delete(id);
     }
 }
