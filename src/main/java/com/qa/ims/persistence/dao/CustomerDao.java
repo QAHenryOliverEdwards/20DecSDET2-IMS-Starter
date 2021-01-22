@@ -68,8 +68,8 @@ public class CustomerDao implements IDomainDao<Customer> {
 
     public Customer readLatest() {
         try (Connection connection = DatabaseUtilities.getInstance().getConnection();
-                Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery("SELECT * FROM customers ORDER BY id DESC LIMIT 1")) {
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM customers ORDER BY id DESC LIMIT 1")) {
             resultSet.next();
             return modelFromResultSet(resultSet);
         } catch (Exception e) {
@@ -82,8 +82,8 @@ public class CustomerDao implements IDomainDao<Customer> {
     @Override
     public Customer update(Customer customer) {
         try (Connection connection = DatabaseUtilities.getInstance().getConnection();
-                PreparedStatement statement = connection
-                        .prepareStatement("UPDATE customers SET first_name = ?, surname = ? WHERE id = ?")) {
+             PreparedStatement statement = connection
+                     .prepareStatement("UPDATE customers SET first_name = ?, surname = ? WHERE id = ?")) {
             statement.setString(1, customer.getFirstName());
             statement.setString(2, customer.getSurname());
             statement.setLong(3, customer.getId());
@@ -99,7 +99,7 @@ public class CustomerDao implements IDomainDao<Customer> {
     @Override
     public int delete(long id) {
         try (Connection connection = DatabaseUtilities.getInstance().getConnection();
-                PreparedStatement statement = connection.prepareStatement("delete from customers where id = ?")) {
+             PreparedStatement statement = connection.prepareStatement("delete from customers where id = ?")) {
             statement.setLong(1, id);
             return statement.executeUpdate();
         } catch (Exception e) {
@@ -117,4 +117,16 @@ public class CustomerDao implements IDomainDao<Customer> {
         return new Customer(id, firstName, surname);
     }
 
+    public int deleteOrders(long c_id) {
+        try (Connection connection = DatabaseUtilities.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement("DELETE FROM orders WHERE fk_c_id = ?")) {
+            statement.setLong(1, c_id);
+            return statement.executeUpdate();
+        } catch (Exception e) {
+            LOGGER.debug(e);
+            LOGGER.error(e.getMessage());
+        }
+        return 0;
+    }
 }
+

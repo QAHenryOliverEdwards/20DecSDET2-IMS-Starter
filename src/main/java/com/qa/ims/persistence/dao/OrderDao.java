@@ -15,19 +15,19 @@ public class OrderDao implements IDomainDao<Order> {
 
     @Override
     public List<Order> readAll() {
-         try (Connection connection = DatabaseUtilities.getInstance().getConnection();
-         Statement statement = connection.createStatement();
-         ResultSet resultSet = statement.executeQuery("SELECT * FROM orders")) {
-             List<Order> orders = new ArrayList<>();
-             while (resultSet.next()) {
-                 orders.add(modelFromResultSet(resultSet));
-             }
-             return orders;
-         } catch (SQLException e) {
-             LOGGER.debug(e);
-             LOGGER.error(e.getMessage());
-         }
-         return new ArrayList<>();
+        try (Connection connection = DatabaseUtilities.getInstance().getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM orders")) {
+            List<Order> orders = new ArrayList<>();
+            while (resultSet.next()) {
+                orders.add(modelFromResultSet(resultSet));
+            }
+            return orders;
+        } catch (SQLException e) {
+            LOGGER.debug(e);
+            LOGGER.error(e.getMessage());
+        }
+        return new ArrayList<>();
     }
 
     @Override
