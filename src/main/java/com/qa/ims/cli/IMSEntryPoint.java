@@ -1,7 +1,10 @@
 package com.qa.ims.cli;
 
 import com.qa.ims.controller.ItemController;
+import com.qa.ims.controller.OrderController;
 import com.qa.ims.persistence.dao.ItemDao;
+import com.qa.ims.persistence.dao.OrderDao;
+import com.qa.ims.persistence.domain.Order;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,14 +20,17 @@ public class IMSEntryPoint {
 
     private final CustomerController customers;
     private final ItemController items;
+    private final OrderController orders;
     private final JavaUtilities javaUtilities;
 
     public IMSEntryPoint() {
         this.javaUtilities = new JavaUtilities();
         final CustomerDao custDAO = new CustomerDao();
         final ItemDao itemDao = new ItemDao();
+        final OrderDao orderDao = new OrderDao();
         this.customers = new CustomerController(custDAO, javaUtilities);
         this.items = new ItemController(itemDao, javaUtilities);
+        this.orders = new OrderController(orderDao, javaUtilities);
     }
 
     public void init() {
@@ -55,7 +61,7 @@ public class IMSEntryPoint {
                 active = this.items;
                 break;
             case ORDER:
-                // fill this in!
+                active = this.orders;
                 break;
             case STOP:
                 return;

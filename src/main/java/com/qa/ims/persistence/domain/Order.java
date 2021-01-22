@@ -5,12 +5,12 @@ public class Order {
     private Long id;
     private Long c_id;
 
-    public Order(Long c_id) {
+    public Order(Long id, Long c_id) {
+        this.id = id;
         this.c_id = c_id;
     }
 
-    public Order(Long id, Long c_id) {
-        this.id = id;
+    public Order(Long c_id) {
         this.c_id = c_id;
     }
 
