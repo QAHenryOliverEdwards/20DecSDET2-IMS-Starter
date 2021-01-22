@@ -5,7 +5,6 @@ import com.qa.ims.utils.DatabaseUtilities;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import javax.xml.crypto.Data;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +34,7 @@ public class OrderDao implements IDomainDao<Order> {
     public Order create(Order order) {
         try (Connection connection = DatabaseUtilities.getInstance().getConnection();
              PreparedStatement statement = connection
-                     .prepareStatement("INSERT INTO orders(id) VALUES (?)")) {
+                     .prepareStatement("INSERT INTO orders(fk_c_id) VALUES (?)")) {
             statement.setLong(1, order.getC_id());
             statement.executeUpdate();
             return readLatest();

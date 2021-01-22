@@ -23,7 +23,11 @@ public class OrderController implements ICrudController<Order> {
 
     @Override
     public List<Order> readAll() {
-        return null;
+         List<Order> orders = orderDao.readAll();
+         for (Order order : orders) {
+             LOGGER.info(order);
+         }
+         return orders;
     }
 
     @Override
