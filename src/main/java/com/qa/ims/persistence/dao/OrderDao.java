@@ -5,7 +5,9 @@ import com.qa.ims.utils.DatabaseUtilities;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.xml.crypto.Data;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDao implements IDomainDao<Order> {
@@ -14,7 +16,19 @@ public class OrderDao implements IDomainDao<Order> {
 
     @Override
     public List<Order> readAll() {
-        return null;
+         try (Connection connection = DatabaseUtilities.getInstance().getConnection();
+         Statement statement = connection.createStatement();
+         ResultSet resultSet = statement.executeQuery("SELECT * FROM orders")) {
+             List<Order> orders = new ArrayList<>();
+             while (resultSet.next()) {
+                 orders.add(modelFromResultSet(resultSet));
+             }
+             return orders;
+         } catch (SQLException e) {
+             LOGGER.debug(e);
+             LOGGER.error(e.getMessage());
+         }
+         return new ArrayList<>();
     }
 
     @Override
@@ -22,7 +36,7 @@ public class OrderDao implements IDomainDao<Order> {
         try (Connection connection = DatabaseUtilities.getInstance().getConnection();
              PreparedStatement statement = connection
                      .prepareStatement("INSERT INTO orders(id) VALUES (?)")) {
-            statement.setLong(1, order.getId());
+            statement.setLong(1, order.getC_id());
             statement.executeUpdate();
             return readLatest();
         } catch (Exception e) {
