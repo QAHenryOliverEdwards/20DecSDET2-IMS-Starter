@@ -5,10 +5,7 @@ import com.qa.ims.utils.DatabaseUtilities;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 
 public class OrderDao implements IDomainDao<Order> {
@@ -50,6 +47,19 @@ public class OrderDao implements IDomainDao<Order> {
         return null;
     }
 
+    public Order readLatest() {
+        try (Connection connection = DatabaseUtilities.getInstance().getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM orders ORDER BY id DESC LIMIT 1")) {
+            resultSet.next();
+            return modelFromResultSet(resultSet);
+        } catch (Exception e) {
+            LOGGER.debug(e);
+            LOGGER.error(e.getMessage());
+        }
+        return null;
+    }
+
     @Override
     public Order update(Order order) {
         return null;
@@ -62,7 +72,9 @@ public class OrderDao implements IDomainDao<Order> {
 
     @Override
     public Order modelFromResultSet(ResultSet resultSet) throws SQLException {
-        return null;
+        Long id = resultSet.getLong("id");
+        Long fk_c_id = resultSet.getLong("fk_c_id");
+        return new Order(id, fk_c_id);
     }
 
 }
