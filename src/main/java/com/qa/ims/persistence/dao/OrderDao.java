@@ -78,6 +78,20 @@ public class OrderDao implements IDomainDao<Order> {
         return null;
     }
 
+    public Order addUpdate(Order order, Long itemID) {
+        try (Connection connection = DatabaseUtilities.getInstance().getConnection();
+        PreparedStatement statement = connection.prepareStatement("INSERT INTO order_items(fk_o_id, fk_i_id) VALUES(?, ?)")) {
+            statement.setLong(1, order.getId());
+            statement.setLong(2, itemID);
+            statement.executeUpdate();
+            return readLatest();
+        } catch (Exception e) {
+            LOGGER.debug(e);
+            LOGGER.error(e.getMessage());
+        }
+        return null;
+    }
+
     @Override
     public int delete(long id) {
         try (Connection connection = DatabaseUtilities.getInstance().getConnection();

@@ -41,6 +41,19 @@ public class OrderController implements ICrudController<Order> {
 
     @Override
     public Order update() {
+        LOGGER.info("Please enter your customer id");
+        Long c_id = javaUtilities.getLong();
+        LOGGER.info("Please enter your order id");
+        Long o_id = javaUtilities.getLong();
+        LOGGER.info("Would you like to ADD or REMOVE an item");
+        String action = javaUtilities.getString();
+        if (action.equals("ADD")) {
+            LOGGER.info("Enter the id of the item you would like to add");
+            Long i_id = javaUtilities.getLong();
+            Order order = orderDao.addUpdate(new Order(o_id, c_id), i_id);
+            return order;
+        }
+
         return null;
     }
 
