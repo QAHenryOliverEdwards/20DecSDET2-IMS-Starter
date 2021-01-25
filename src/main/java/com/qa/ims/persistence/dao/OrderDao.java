@@ -9,6 +9,8 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.qa.ims.persistence.dao.ItemDao;
+
 public class OrderDao implements IDomainDao<Order> {
 
     public static final Logger LOGGER = LogManager.getLogger();
@@ -92,10 +94,11 @@ public class OrderDao implements IDomainDao<Order> {
         return null;
     }
 
-    public Order removeUpdate(Long itemID) {
+    public Order removeUpdate(Order order, Long itemID) {
         try (Connection connection = DatabaseUtilities.getInstance().getConnection();
-        PreparedStatement statement = connection.prepareStatement("DELETE FROM order_items WHERE fk_i_id = ?")) {
-            statement.setLong(1, itemID);
+        PreparedStatement statement = connection.prepareStatement("DELETE FROM order_items WHERE (fk_o_id = ? AND fk_i_id = ?)")) {
+            statement.setLong(1, order.getId());
+            statement.setLong(2, itemID);
             statement.executeUpdate();
             return readLatest();
         } catch (Exception e) {
@@ -103,6 +106,22 @@ public class OrderDao implements IDomainDao<Order> {
             LOGGER.error(e.getMessage());
         }
         return null;
+    }
+
+    public Double calculateTotal(Order order) {
+        Double totalPrice = 0.0;
+        try (Connection connection = DatabaseUtilities.getInstance().getConnection();
+        PreparedStatement statement = connection.prepareStatement("SELECT items.id, items.price FROM items JOIN order_items ON items.id=order_items.fk_i_id WHERE order_items.fk_o_id = ?")) {
+            statement.setLong(1, order.getId());
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                totalPrice += resultSet.getDouble("price");
+            }
+        } catch (Exception e) {
+            LOGGER.debug(e);
+            LOGGER.error(e.getMessage());
+        }
+        return totalPrice;
     }
 
     @Override

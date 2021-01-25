@@ -57,7 +57,7 @@ public class OrderController implements ICrudController<Order> {
         else if (action.equals("REMOVE")) {
             LOGGER.info("Enter the id of the item you would like to remove");
             Long i_id = javaUtilities.getLong();
-            Order order = orderDao.removeUpdate(i_id);
+            Order order = orderDao.removeUpdate(new Order(o_id, c_id), i_id);
             return order;
         }
 
@@ -69,5 +69,15 @@ public class OrderController implements ICrudController<Order> {
         LOGGER.info("Please enter the id of the order you would like to delete");
         Long id = javaUtilities.getLong();
         return orderDao.delete(id);
+    }
+
+    public Double calculateTotal() {
+        LOGGER.info("Please enter your customer id");
+        Long c_id = javaUtilities.getLong();
+        LOGGER.info("Please enter your order id");
+        Long o_id = javaUtilities.getLong();
+        Double total = orderDao.calculateTotal(new Order(o_id, c_id));
+        LOGGER.info(total);
+        return total;
     }
 }
