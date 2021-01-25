@@ -8,7 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
-public class OrderController implements ICrudController<Order> {
+public class OrderController implements ICrudController<Order>, ICrudControllerCalculate {
 
     public static final Logger LOGGER = LogManager.getLogger();
 
@@ -71,7 +71,8 @@ public class OrderController implements ICrudController<Order> {
         return orderDao.delete(id);
     }
 
-    public Double calculateTotal() {
+    @Override
+    public Double calculateTotalPrice() {
         LOGGER.info("Please enter your customer id");
         Long c_id = javaUtilities.getLong();
         LOGGER.info("Please enter your order id");

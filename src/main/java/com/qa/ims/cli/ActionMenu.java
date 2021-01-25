@@ -8,7 +8,7 @@ import com.qa.ims.utils.JavaUtilities;
 public enum ActionMenu {
     CREATE("To save a new entity into the database"), READ("To read an entity from the database"),
     UPDATE("To change an entity already in the database"), DELETE("To remove an entity from the database"),
-    RETURN("To return to domain selection");
+    CALCULATE("To calculate the price of an order"), RETURN("To return to domain selection");
 
     public static final Logger LOGGER = LogManager.getLogger();
 
@@ -25,6 +25,14 @@ public enum ActionMenu {
     public static void printActions() {
         for (ActionMenu actionMenu : ActionMenu.values()) {
             LOGGER.info(actionMenu.getDescription());
+        }
+    }
+
+    public static void printNonOrderActions() {
+        for (ActionMenu actionMenu : ActionMenu.values()) {
+            if (!actionMenu.equals(ActionMenu.CALCULATE)) {
+                LOGGER.info(actionMenu.getDescription());
+            }
         }
     }
 

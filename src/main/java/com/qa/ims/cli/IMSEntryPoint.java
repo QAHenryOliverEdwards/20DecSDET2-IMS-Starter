@@ -50,6 +50,7 @@ public class IMSEntryPoint {
         do {
 
             ICrudController<?> active = null;
+            ICrudControllerCalculate calculate = null;
             switch (domainMenu) {
             case CUSTOMER:
                 active = this.customers;
@@ -59,6 +60,7 @@ public class IMSEntryPoint {
                 break;
             case ORDER:
                 active = this.orders;
+                calculate = this.orders;
                 break;
             case STOP:
                 return;
@@ -68,18 +70,25 @@ public class IMSEntryPoint {
 
             LOGGER.info("What would you like to do with " + domainMenu.name().toLowerCase() + ":");
 
-            ActionMenu.printActions();
+            if(active == this.orders) {
+                ActionMenu.printActions();
+            }
+
+            else {
+                ActionMenu.printNonOrderActions();
+            }
+
             ActionMenu action = ActionMenu.getAction(javaUtilities);
 
             if (action == ActionMenu.RETURN) {
                 changeDomain = true;
             } else {
-                chooseAction(active,action);
+                chooseAction(active,action,calculate);
             }
         } while (!changeDomain);
     }
 
-    public void chooseAction(ICrudController<?> crudController, ActionMenu actionMenu) {
+    public void chooseAction(ICrudController<?> crudController, ActionMenu actionMenu, ICrudControllerCalculate crudControllerCalculate) {
         switch (actionMenu) {
         case CREATE:
             crudController.create();
@@ -92,6 +101,9 @@ public class IMSEntryPoint {
             break;
         case DELETE:
             crudController.delete();
+            break;
+        case CALCULATE:
+            crudControllerCalculate.calculateTotalPrice();
             break;
         case RETURN:
             break;
