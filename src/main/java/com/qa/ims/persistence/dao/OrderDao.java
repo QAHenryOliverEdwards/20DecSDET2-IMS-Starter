@@ -92,6 +92,19 @@ public class OrderDao implements IDomainDao<Order> {
         return null;
     }
 
+    public Order removeUpdate(Long itemID) {
+        try (Connection connection = DatabaseUtilities.getInstance().getConnection();
+        PreparedStatement statement = connection.prepareStatement("DELETE FROM order_items WHERE fk_i_id = ?")) {
+            statement.setLong(1, itemID);
+            statement.executeUpdate();
+            return readLatest();
+        } catch (Exception e) {
+            LOGGER.debug(e);
+            LOGGER.error(e.getMessage());
+        }
+        return null;
+    }
+
     @Override
     public int delete(long id) {
         try (Connection connection = DatabaseUtilities.getInstance().getConnection();
