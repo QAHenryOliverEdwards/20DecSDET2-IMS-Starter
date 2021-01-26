@@ -32,10 +32,11 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", c_id=" + cID +
-                '}';
+        final StringBuilder sb = new StringBuilder("Order{");
+        sb.append("id=").append(id);
+        sb.append(", cID=").append(cID);
+        sb.append('}');
+        return sb.toString();
     }
 
     @Override
