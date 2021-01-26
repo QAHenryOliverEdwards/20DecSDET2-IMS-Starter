@@ -7,7 +7,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class OrderDao implements IDomainDao<Order> {
@@ -36,7 +35,7 @@ public class OrderDao implements IDomainDao<Order> {
         try (Connection connection = DatabaseUtilities.getInstance().getConnection();
              PreparedStatement statement = connection
                      .prepareStatement("INSERT INTO orders(fk_c_id) VALUES (?)")) {
-            statement.setLong(1, order.getC_id());
+            statement.setLong(1, order.getcID());
             statement.executeUpdate();
             return readLatest();
         } catch (Exception e) {
@@ -151,8 +150,8 @@ public class OrderDao implements IDomainDao<Order> {
     @Override
     public Order modelFromResultSet(ResultSet resultSet) throws SQLException {
         Long id = resultSet.getLong("id");
-        Long fk_c_id = resultSet.getLong("fk_c_id");
-        return new Order(id, fk_c_id);
+        Long fkcID = resultSet.getLong("fk_c_id");
+        return new Order(id, fkcID);
     }
 
 }

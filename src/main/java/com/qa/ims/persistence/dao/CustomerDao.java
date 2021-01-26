@@ -99,7 +99,7 @@ public class CustomerDao implements IDomainDao<Customer> {
     @Override
     public int delete(long id) {
         try (Connection connection = DatabaseUtilities.getInstance().getConnection();
-             PreparedStatement statement = connection.prepareStatement("delete from customers where id = ?")) {
+             PreparedStatement statement = connection.prepareStatement("DELETE FROM customers WHERE id = ?")) {
             statement.setLong(1, id);
             return statement.executeUpdate();
         } catch (Exception e) {
@@ -117,10 +117,10 @@ public class CustomerDao implements IDomainDao<Customer> {
         return new Customer(id, firstName, surname);
     }
 
-    public int deleteOrders(long c_id) {
+    public int deleteOrders(long cID) {
         try (Connection connection = DatabaseUtilities.getInstance().getConnection();
              PreparedStatement statement = connection.prepareStatement("DELETE FROM orders WHERE fk_c_id = ?")) {
-            statement.setLong(1, c_id);
+            statement.setLong(1, cID);
             return statement.executeUpdate();
         } catch (Exception e) {
             LOGGER.debug(e);

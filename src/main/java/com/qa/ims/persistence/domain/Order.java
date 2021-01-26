@@ -3,15 +3,15 @@ package com.qa.ims.persistence.domain;
 public class Order {
 
     private Long id;
-    private Long c_id;
+    private Long cID;
 
-    public Order(Long id, Long c_id) {
+    public Order(Long id, Long cID) {
         this.id = id;
-        this.c_id = c_id;
+        this.cID = cID;
     }
 
-    public Order(Long c_id) {
-        this.c_id = c_id;
+    public Order(Long cID) {
+        this.cID = cID;
     }
 
     public Long getId() {
@@ -22,19 +22,19 @@ public class Order {
         this.id = id;
     }
 
-    public Long getC_id() {
-        return c_id;
+    public Long getcID() {
+        return cID;
     }
 
-    public void setC_id(Long c_id) {
-        this.c_id = c_id;
+    public void setcID(Long cID) {
+        this.cID = cID;
     }
 
     @Override
     public String toString() {
         return "Order{" +
                 "id=" + id +
-                ", c_id=" + c_id +
+                ", c_id=" + cID +
                 '}';
     }
 
@@ -46,13 +46,13 @@ public class Order {
         Order order = (Order) o;
 
         if (id != null ? !id.equals(order.id) : order.id != null) return false;
-        return c_id != null ? c_id.equals(order.c_id) : order.c_id == null;
+        return cID != null ? cID.equals(order.cID) : order.cID == null;
     }
 
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + (c_id != null ? c_id.hashCode() : 0);
+        result = 31 * result + (cID != null ? cID.hashCode() : 0);
         return result;
     }
 }
