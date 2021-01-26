@@ -3,7 +3,6 @@ package com.qa.ims.cli;
 import com.qa.ims.controller.*;
 import com.qa.ims.persistence.dao.ItemDao;
 import com.qa.ims.persistence.dao.OrderDao;
-import com.qa.ims.persistence.domain.Order;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

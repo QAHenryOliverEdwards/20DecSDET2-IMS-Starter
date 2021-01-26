@@ -6,7 +6,6 @@ import com.qa.ims.utils.JavaUtilities;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class OrderController implements ICrudController<Order>, ICrudControllerCalculate {
@@ -34,8 +33,8 @@ public class OrderController implements ICrudController<Order>, ICrudControllerC
     @Override
     public Order create() {
         LOGGER.info("Please enter an customer id");
-        Long c_id = javaUtilities.getLong();
-        Order order = orderDao.create(new Order(c_id));
+        Long cID = javaUtilities.getLong();
+        Order order = orderDao.create(new Order(cID));
         LOGGER.info("Order created");
         return order;
     }
@@ -43,22 +42,21 @@ public class OrderController implements ICrudController<Order>, ICrudControllerC
     @Override
     public Order update() {
         LOGGER.info("Please enter your customer id");
-        Long c_id = javaUtilities.getLong();
+        Long cID = javaUtilities.getLong();
         LOGGER.info("Please enter your order id");
-        Long o_id = javaUtilities.getLong();
+        Long oID = javaUtilities.getLong();
         LOGGER.info("Would you like to ADD or REMOVE an item");
         String action = javaUtilities.getString();
         if (action.equals("ADD")) {
             LOGGER.info("Enter the id of the item you would like to add");
-            Long i_id = javaUtilities.getLong();
-            Order order = orderDao.addUpdate(new Order(o_id, c_id), i_id);
-            return order;
+            Long iID = javaUtilities.getLong();
+            return orderDao.addUpdate(new Order(oID, cID), iID);
         }
 
         else if (action.equals("REMOVE")) {
             LOGGER.info("Enter the id of the item you would like to remove");
-            Long i_id = javaUtilities.getLong();
-            orderDao.removeUpdate(new Order(o_id, c_id), i_id);
+            Long iID = javaUtilities.getLong();
+            orderDao.removeUpdate(new Order(oID, cID), iID);
             return null;
         }
         return null;
@@ -74,10 +72,10 @@ public class OrderController implements ICrudController<Order>, ICrudControllerC
     @Override
     public Double calculateTotalPrice() {
         LOGGER.info("Please enter your customer id");
-        Long c_id = javaUtilities.getLong();
+        Long cID = javaUtilities.getLong();
         LOGGER.info("Please enter your order id");
-        Long o_id = javaUtilities.getLong();
-        Double total = orderDao.calculateTotal(new Order(o_id, c_id));
+        Long oID = javaUtilities.getLong();
+        Double total = orderDao.calculateTotal(new Order(oID, cID));
         LOGGER.info(total);
         return total;
     }
