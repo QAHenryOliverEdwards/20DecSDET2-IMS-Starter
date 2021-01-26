@@ -57,8 +57,8 @@ public class OrderDAOTest {
 
     @Test
     public void testAddUpdate() {
-        final long orderID = 2L;
-        final long customerID = 2L;
+        final long orderID = 1L;
+        final long customerID = 1L;
         final long itemID = 1L;
         assertEquals(new Order(orderID, customerID), DAO.addUpdate(new Order(orderID, customerID), itemID));
     }
