@@ -91,20 +91,6 @@ public class ItemDao implements IDomainDao<Item> {
         return null;
     }
 
-    @Override
-    public int delete(long id) {
-        try (Connection connection = DatabaseUtilities.getInstance().getConnection();
-        PreparedStatement statement = connection
-                .prepareStatement("DELETE FROM items WHERE id = ?")) {
-            statement.setLong(1, id);
-            return statement.executeUpdate();
-        } catch (Exception e) {
-            LOGGER.debug(e);
-            LOGGER.error(e.getMessage());
-        }
-        return 0;
-    }
-
     public int deleteOrderItems(Item item, long orderID) {
         try (Connection connection = DatabaseUtilities.getInstance().getConnection();
         PreparedStatement statement = connection
@@ -125,5 +111,18 @@ public class ItemDao implements IDomainDao<Item> {
         String name = resultSet.getString("name");
         Double price = resultSet.getDouble("price");
         return new Item(id, name, price);
+    }
+
+    @Override
+    public int delete(long id) {
+        try (Connection connection = DatabaseUtilities.getInstance().getConnection();
+             PreparedStatement statement = connection.prepareStatement("DELETE FROM items WHERE id = ?")) {
+            statement.setLong(1, id);
+            return statement.executeUpdate();
+        } catch (Exception e) {
+            LOGGER.debug(e);
+            LOGGER.error(e.getMessage());
+        }
+        return 0;
     }
 }
