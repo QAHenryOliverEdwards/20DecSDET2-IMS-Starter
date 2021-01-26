@@ -65,7 +65,7 @@ public class OrderDAOTest {
 
     @Test
     public void testRemoveUpdate() {
-        final long orderID = 2L;
+        final long orderID = 1L;
         final long customerID = 1L;
         final long itemID = 1L;
         assertEquals(1L, DAO.removeUpdate(new Order(orderID, customerID), itemID));
