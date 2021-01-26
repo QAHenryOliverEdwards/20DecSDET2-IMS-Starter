@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class OrderDAOTest {
 
@@ -47,5 +48,36 @@ public class OrderDAOTest {
     @Test
     public void testDelete() {
         assertEquals(1L, DAO.delete(1L));
+    }
+
+    @Test
+    public void testUpdate() {
+        assertNull(DAO.update(new Order(1L, 1L)));
+    }
+
+    @Test
+    public void testAddUpdate() {
+        final long orderID = 2L;
+        final long customerID = 2L;
+        final long itemID = 1L;
+        assertEquals(new Order(orderID, customerID), DAO.addUpdate(new Order(orderID, customerID), itemID));
+    }
+
+    @Test
+    public void testRemoveUpdate() {
+        final long orderID = 2L;
+        final long customerID = 1L;
+        final long itemID = 1L;
+        assertEquals(1L, DAO.removeUpdate(new Order(orderID, customerID), itemID));
+    }
+
+    @Test
+    public void testCalculateTotal() {
+        final long orderID = 1L;
+        final long customerID = 1L;
+        final Order order = new Order(orderID, customerID);
+        final Double total = DAO.calculateTotal(order);
+        final Double expected = Double.parseDouble("0.49");
+        assertEquals(expected, total);
     }
 }

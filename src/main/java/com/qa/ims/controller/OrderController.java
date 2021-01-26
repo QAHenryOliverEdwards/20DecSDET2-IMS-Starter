@@ -57,10 +57,9 @@ public class OrderController implements ICrudController<Order>, ICrudControllerC
         else if (action.equals("REMOVE")) {
             LOGGER.info("Enter the id of the item you would like to remove");
             Long i_id = javaUtilities.getLong();
-            Order order = orderDao.removeUpdate(new Order(o_id, c_id), i_id);
-            return order;
+            orderDao.removeUpdate(new Order(o_id, c_id), i_id);
+            return null;
         }
-
         return null;
     }
 

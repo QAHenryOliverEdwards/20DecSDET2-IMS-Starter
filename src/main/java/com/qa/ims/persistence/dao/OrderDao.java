@@ -9,8 +9,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.qa.ims.persistence.dao.ItemDao;
-
 public class OrderDao implements IDomainDao<Order> {
 
     public static final Logger LOGGER = LogManager.getLogger();
@@ -94,18 +92,17 @@ public class OrderDao implements IDomainDao<Order> {
         return null;
     }
 
-    public Order removeUpdate(Order order, Long itemID) {
+    public int removeUpdate(Order order, Long itemID) {
         try (Connection connection = DatabaseUtilities.getInstance().getConnection();
         PreparedStatement statement = connection.prepareStatement("DELETE FROM order_items WHERE (fk_o_id = ? AND fk_i_id = ?)")) {
             statement.setLong(1, order.getId());
             statement.setLong(2, itemID);
-            statement.executeUpdate();
-            return readLatest();
+            return statement.executeUpdate();
         } catch (Exception e) {
             LOGGER.debug(e);
             LOGGER.error(e.getMessage());
         }
-        return null;
+        return 0;
     }
 
     public Double calculateTotal(Order order) {
