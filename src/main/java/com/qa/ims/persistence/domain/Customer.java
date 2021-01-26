@@ -43,7 +43,12 @@ public class Customer {
 
 	@Override
 	public String toString() {
-		return "id:" + id + " first name:" + firstName + " surname:" + surname;
+		final StringBuilder sb = new StringBuilder("Customer{");
+		sb.append("id=").append(id);
+		sb.append(", firstName='").append(firstName).append('\'');
+		sb.append(", surname='").append(surname).append('\'');
+		sb.append('}');
+		return sb.toString();
 	}
 
 	@Override
@@ -57,32 +62,16 @@ public class Customer {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Customer other = (Customer) obj;
-		if (getFirstName() == null) {
-			if (other.getFirstName() != null)
-				return false;
-		} else if (!getFirstName().equals(other.getFirstName()))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (surname == null) {
-			if (other.surname != null)
-				return false;
-		} else if (!surname.equals(other.surname))
-			return false;
-		return true;
-	}
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
 
+		Customer customer = (Customer) o;
+
+		if (id != null ? !id.equals(customer.id) : customer.id != null) return false;
+		if (firstName != null ? !firstName.equals(customer.firstName) : customer.firstName != null) return false;
+		return surname != null ? surname.equals(customer.surname) : customer.surname == null;
+	}
 }
 
 
