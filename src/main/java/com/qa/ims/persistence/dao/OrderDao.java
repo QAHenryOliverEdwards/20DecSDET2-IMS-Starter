@@ -135,6 +135,19 @@ public class OrderDao implements IDomainDao<Order> {
         return 0;
     }
 
+    public int deleteOrderItems(Order order, long itemID) {
+        try (Connection connection = DatabaseUtilities.getInstance().getConnection();
+        PreparedStatement statement = connection.prepareStatement("DELETE FROM order_items WHERE (fk_o_id = ? AND fk_i_id = ?)")) {
+            statement.setLong(1, order.getId());
+            statement.setLong(2, itemID);
+            return statement.executeUpdate();
+        } catch (Exception e) {
+            LOGGER.debug(e);
+            LOGGER.error(e.getMessage());
+        }
+        return 0;
+    }
+
     @Override
     public Order modelFromResultSet(ResultSet resultSet) throws SQLException {
         Long id = resultSet.getLong("id");
