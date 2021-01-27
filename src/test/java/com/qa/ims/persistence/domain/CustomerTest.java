@@ -2,11 +2,15 @@ package com.qa.ims.persistence.domain;
 
 import org.junit.Test;
 
-import nl.jqno.equalsverifier.EqualsVerifier;
-
 import static org.junit.Assert.*;
 
 public class CustomerTest {
+
+	@Test
+	public void testConstructor() {
+		Customer customer = new Customer();
+		assertEquals(Customer.class, customer.getClass());
+	}
 
 	@Test
 	public void testConstructor1() {

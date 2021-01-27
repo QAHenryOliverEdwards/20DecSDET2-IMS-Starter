@@ -128,5 +128,36 @@ public class CustomerDao implements IDomainDao<Customer> {
         }
         return 0;
     }
+
+//    public List<Customer> emptyCustomers() {
+//        try (Connection connection = DatabaseUtilities.getInstance().getConnection();
+//             Statement statement = connection.createStatement();
+//             Statement statement1 = connection.createStatement();
+//             ResultSet resultSet = statement.executeQuery("SELECT * FROM customers");
+//             ResultSet resultSet1 = statement1.executeQuery("SELECT * FROM orders");
+//             PreparedStatement statement2 = connection.prepareStatement("DELETE FROM customers WHERE id = ?");
+//             PreparedStatement statement3 = connection.prepareStatement("DELETE FROM orders WHERE fk_c_id = ?");
+//             PreparedStatement statement4 = connection.prepareStatement("DELETE FROM order_items WHERE fk_o_id = ?")) {
+//
+//            while (resultSet1.next()) {
+//                statement4.setLong(1, resultSet1.getLong("id"));
+//                statement4.executeUpdate();
+//            }
+//
+//            while (resultSet.next()) {
+//                statement3.setLong(1, resultSet.getLong("id"));
+//                statement3.executeUpdate();
+//                statement2.setLong(1, resultSet.getLong("id"));
+//                statement2.executeUpdate();
+//            }
+//
+//            return readAll();
+//
+//        } catch (Exception e) {
+//                 LOGGER.debug(e);
+//                 LOGGER.error(e.getMessage());
+//        }
+//        return new ArrayList<>();
+//    }
 }
 

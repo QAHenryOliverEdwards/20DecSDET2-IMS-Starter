@@ -1,6 +1,7 @@
 package com.qa.ims.persistence.dao;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,5 +58,56 @@ public class CustomerDAOTest {
     public void testDelete() {
         assertEquals(1, DAO.deleteOrders(2));
         assertEquals(1, DAO.delete(2));
+    }
+
+    @Test
+    public void testModelFromResultSet() {
+        Customer customer = DAO.readLatest();
+        Customer expected = new Customer(2L,"henry", "oliver-edwards");
+        assertEquals(expected, customer);
+    }
+
+    @Test
+    public void testDeleteOrders() {
+        assertEquals(1, DAO.deleteOrders(2));
+    }
+
+    @Test
+    public void testEmptyCustomers() {
+
+    }
+
+    @Test
+    public void testCreateFail() {
+        assertNull(DAO.create(null));
+    }
+
+    @Test
+    public void testReadFail() {
+        assertNull(DAO.read(null));
+    }
+
+    @Test
+    public void testReadAllFail() {
+        DatabaseUtilities.connect();
+        DatabaseUtilities.getInstance().init("src/test/resources/sql-schema.sql", "src/test/resources/sql-data-empty.sql");
+        assertEquals(new ArrayList<>(), DAO.readAll());
+    }
+
+    @Test
+    public void testReadLatestFail() {
+        DatabaseUtilities.connect();
+        DatabaseUtilities.getInstance().init("src/test/resources/sql-schema.sql", "src/test/resources/sql-data-empty.sql");
+        assertNull(DAO.readLatest());
+    }
+
+    @Test
+    public void testUpdateFail() {
+        assertNull(DAO.update(null));
+    }
+
+    @Test
+    public void testDeleteFail() {
+        assertEquals(0, DAO.delete(0));
     }
 }

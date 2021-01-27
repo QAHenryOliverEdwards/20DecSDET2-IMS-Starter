@@ -6,6 +6,10 @@ public class Customer {
 	private String firstName;
 	private String surname;
 
+	public Customer() {
+
+	}
+
 	public Customer(String firstName, String surname) {
 		this.setFirstName(firstName);
 		this.setSurname(surname);
