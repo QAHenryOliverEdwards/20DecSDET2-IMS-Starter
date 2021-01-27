@@ -48,7 +48,7 @@ public class OrderDAOTest {
 
     @Test
     public void testDelete() {
-        assertEquals(1, DAO.deleteOrderItems(new Order(1L, 1L), 1L));
+        assertEquals(1, DAO.deleteOrderItems(new Order(1L, 1L)));
         assertEquals(1, DAO.delete(1));
     }
 
@@ -71,15 +71,5 @@ public class OrderDAOTest {
         final long customerID = 1L;
         final long itemID = 1L;
         assertEquals(1L, DAO.removeUpdate(new Order(orderID, customerID), itemID));
-    }
-
-    @Test
-    public void testCalculateTotal() {
-        final long orderID = 1L;
-        final long customerID = 1L;
-        final Order order = new Order(orderID, customerID);
-        final Double total = DAO.calculateTotal(order);
-        final Double expected = Double.parseDouble("0.49");
-        assertEquals(expected, total);
     }
 }

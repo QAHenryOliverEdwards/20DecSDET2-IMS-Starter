@@ -15,6 +15,7 @@ import com.qa.ims.utils.DatabaseUtilities;
 public class CustomerDAOTest {
 
     private final CustomerDao DAO = new CustomerDao();
+    private final OrderDao ODAO = new OrderDao();
 
     @Before
     public void setup() {
@@ -56,7 +57,7 @@ public class CustomerDAOTest {
 
     @Test
     public void testDelete() {
-        assertEquals(1, DAO.deleteOrders(2));
+        assertEquals(1, ODAO.delete(2));
         assertEquals(1, DAO.delete(2));
     }
 
@@ -65,11 +66,6 @@ public class CustomerDAOTest {
         Customer customer = DAO.readLatest();
         Customer expected = new Customer(2L,"henry", "oliver-edwards");
         assertEquals(expected, customer);
-    }
-
-    @Test
-    public void testDeleteOrders() {
-        assertEquals(1, DAO.deleteOrders(2));
     }
 
     @Test

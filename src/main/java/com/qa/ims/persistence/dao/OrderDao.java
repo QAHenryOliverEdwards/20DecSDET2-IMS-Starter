@@ -1,5 +1,6 @@
 package com.qa.ims.persistence.dao;
 
+import com.qa.ims.persistence.domain.Item;
 import com.qa.ims.persistence.domain.Order;
 import com.qa.ims.utils.DatabaseUtilities;
 import org.apache.logging.log4j.LogManager;
@@ -18,7 +19,7 @@ public class OrderDao implements IDomainDao<Order> {
     public List<Order> readAll() {
         try (Connection connection = DatabaseUtilities.getInstance().getConnection();
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT * FROM orders")) {
+             ResultSet resultSet = statement.executeQuery("SELECT * FROM orders ORDER BY ID")) {
             List<Order> orders = new ArrayList<>();
             while (resultSet.next()) {
                 orders.add(modelFromResultSet(resultSet));
@@ -106,20 +107,37 @@ public class OrderDao implements IDomainDao<Order> {
         return 0;
     }
 
-    public Double calculateTotal(Order order) {
-        Double totalPrice = 0.0;
+    public HashMap<Item, Integer> orderTotalHashMap(Order order) {
+        HashMap<Item, Integer> listOfItemsAndQuantities = new HashMap<>();
         try (Connection connection = DatabaseUtilities.getInstance().getConnection();
-        PreparedStatement statement = connection.prepareStatement("SELECT items.id, items.price FROM items JOIN order_items ON items.id=order_items.fk_i_id WHERE order_items.fk_o_id = ?")) {
+             PreparedStatement statement = connection.prepareStatement("SELECT items.name, items.price, order_items.fk_o_id FROM items JOIN order_items ON items.id=order_items.fk_i_id WHERE order_items.fk_o_id = ?")) {
             statement.setLong(1, order.getId());
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
-                totalPrice += resultSet.getDouble("price");
-            }
+                String name = resultSet.getString("name");
+                Double price = resultSet.getDouble("price");
+                Integer quantity = 1;
+                Item item = new Item(name, price);
+                if (listOfItemsAndQuantities.containsKey(item)) {
+                    listOfItemsAndQuantities.put(item, listOfItemsAndQuantities.get(item) + 1);
+                } else {
+                    listOfItemsAndQuantities.put(item, quantity);
+                    }
+                }
+            return listOfItemsAndQuantities;
         } catch (Exception e) {
             LOGGER.debug(e);
             LOGGER.error(e.getMessage());
         }
-        return totalPrice;
+        return null;
+    }
+
+    public Double calculateTotal(List<Item> items) {
+        Double total = 0.0;
+        for (Item item : items) {
+            total += item.getPrice();
+        }
+        return total;
     }
 
     @Override
@@ -135,11 +153,10 @@ public class OrderDao implements IDomainDao<Order> {
         return 0;
     }
 
-    public int deleteOrderItems(Order order, long itemID) {
+    public int deleteOrderItems(Order order) {
         try (Connection connection = DatabaseUtilities.getInstance().getConnection();
-        PreparedStatement statement = connection.prepareStatement("DELETE FROM order_items WHERE (fk_o_id = ? AND fk_i_id = ?)")) {
+        PreparedStatement statement = connection.prepareStatement("DELETE FROM order_items WHERE fk_o_id = ?")) {
             statement.setLong(1, order.getId());
-            statement.setLong(2, itemID);
             return statement.executeUpdate();
         } catch (Exception e) {
             LOGGER.debug(e);
