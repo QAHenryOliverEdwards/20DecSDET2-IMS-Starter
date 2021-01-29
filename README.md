@@ -114,6 +114,11 @@ in code. For this I used SonarQube to read through the packaged .jar file.
 
 We use [SemVer](http://semver.org/) for versioning.
 
+## Project Management
+
+Project management was done using Jira, the Jira for this project
+is located [here](https://qahenryoliveredwards.atlassian.net/secure/RapidBoard.jspa?projectKey=IMS&rapidView=1&view=planning.nodetail&atlOrigin=eyJpIjoiMThjZWU4NmEzMDQ3NDFmOWE0NjA2MWMwNmIzYTdjZWMiLCJwIjoiaiJ9)
+
 ## Authors
 
 * **Chris Perrins** - *Initial work* - [christophperrins](https://github.com/christophperrins)
