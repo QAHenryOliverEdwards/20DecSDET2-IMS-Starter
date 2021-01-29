@@ -1,0 +1,127 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Customer
+class Item
+class Order
+
+interface IDomainDao
+
+class CustomerDao
+class ItemDao
+class OrderDao
+
+interface ICrudController
+interface ICrudControllerCalculate
+
+class CustomerController
+class ItemController
+class OrderController
+
+class JavaUtilities
+
+IDomainDao <|-- CustomerDao
+CustomerDao ..> Customer
+IDomainDao <|-- ItemDao
+ItemDao ..> Item
+IDomainDao <|-- OrderDao
+OrderDao ..> Order
+OrderDao ..> JavaUtilities
+
+ICrudController <|-- CustomerController
+CustomerController ..> CustomerDao
+CustomerController ..> JavaUtilities
+
+ICrudController <|-- ItemController
+ItemController ..> ItemDao
+ItemController ..> JavaUtilities
+
+ICrudController <|-- OrderController
+ICrudControllerCalculate <|-- OrderController
+OrderController ..> OrderDao
+OrderController ..> JavaUtilities
+
+class Customer {
+Long id
+String firstName
+String surname
+}
+
+class Item {
+Long id
+String name
+Double price
+}
+
+class Order {
+Long id
+Long cID
+}
+
+interface IDomainDao<T> {
+    List<T> readAll()
+    T create(T t)
+    T update(T t)
+    int delete(long id)
+    T modelFromResultsSet(ResultSet resultSet)
+}
+
+class CustomerDao {
+Customer read(Long id)
+Customer readLatest()
+}
+
+class ItemDao {
+Item read(Long id)
+Item readLatest()
+int deleteOrderItems(Item item, long orderID)
+}
+
+class OrderDao {
+Order read(Long id)
+Order readLatest()
+Order addUpdate(Order order)
+int removeUpdate(Order order)
+HashMap<Item, Integer> orderTotalHashMap(Order order)
+Double calculateTotal(List<Item> items)
+int deleteOrderItems(Order order)
+}
+
+interface ICrudController<T> {
+List<T> readAll()
+T create()
+T update()
+int delete()
+}
+
+interface ICrudControllerCalculate{
+Double calculateTotalPrice()
+}
+
+class CustomerController{
+Logger LOGGER
+CustomerDao customerDao
+JavaUtilities javaUtilities
+}
+
+class ItemController{
+Logger LOGGER
+ItemDao itemDao
+JavaUtilities javaUtilities
+}
+
+class OrderController{
+Logger LOGGER
+OrderDao orderDao
+JavaUtilities javaUtilities
+}
+
+class JavaUtilities {
+Logger LOGGER
+Scanner scanner
+Long getLong()
+String getString()
+Double getDouble()
+}
+
+@enduml
