@@ -107,7 +107,7 @@ public class OrderController implements ICrudController<Order>, ICrudControllerC
         stringBuilder.append("~ customer id: ").append(order.getcID());
         LOGGER.info(stringBuilder);
         LOGGER.info("----------------------");
-        orderDao.deleteOrderItems(order);
+        System.out.println(orderDao.deleteOrderItems(order));
         return orderDao.delete(id);
     }
 

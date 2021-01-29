@@ -13,8 +13,8 @@ public class CustomerController implements ICrudController<Customer> {
 
     public static final Logger LOGGER = LogManager.getLogger();
 
-    private CustomerDao customerDao;
-    private JavaUtilities javaUtilities;
+    private final CustomerDao customerDao;
+    private final JavaUtilities javaUtilities;
 
     public CustomerController(CustomerDao customerDao, JavaUtilities javaUtilities) {
         super();

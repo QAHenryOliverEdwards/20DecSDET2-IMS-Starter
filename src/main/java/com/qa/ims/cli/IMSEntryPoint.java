@@ -1,14 +1,13 @@
 package com.qa.ims.cli;
 
 import com.qa.ims.controller.*;
+import com.qa.ims.persistence.dao.CustomerDao;
 import com.qa.ims.persistence.dao.ItemDao;
 import com.qa.ims.persistence.dao.OrderDao;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
-import com.qa.ims.persistence.dao.CustomerDao;
 import com.qa.ims.utils.DatabaseUtilities;
 import com.qa.ims.utils.JavaUtilities;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class IMSEntryPoint {
 
