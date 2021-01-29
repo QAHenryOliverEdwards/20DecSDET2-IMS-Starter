@@ -1,4 +1,4 @@
-# Project Title
+# IMS (Inventory Management System)
 
 This is a simple project for managing an inventory system. It allows the user to communicate
 with a database through a CLI (command line interface). This project implements basic CRUD functionality
